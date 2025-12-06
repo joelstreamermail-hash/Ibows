@@ -119,7 +119,7 @@ client.once('ready', () => {
 // --- 6. SERVER START ---
 
 // Startet den Discord Bot
-client.login(process.env.DISCORD_TOKEN); 
+client.login(process.env.DISCORD_TOKEN);
 
 // Startet den Express Server
 app.listen(PORT, () => {
