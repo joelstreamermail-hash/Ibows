@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bot Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background-color: #2c2f33; color: white; padding: 20px; }
+        .card { background-color: #23272a; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 5px solid #7289da; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background-color: #7289da; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+        .logout { float: right; color: #ff5555; margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <a href="/logout" class="logout">Abmelden</a>
+    <h1>Willkommen, <%= user.username %></h1>
+    <p>Bot Version: <strong><%= version %></strong></p>
+
+    <h2>Deine Administrierbaren Server</h2>
+    <p>Du siehst hier nur Server, auf denen du Administrator-Rechte hast.</p>
+
+    <% if (guilds.length > 0) { %>
+        <% guilds.forEach(function(guild) { %>
+            <div class="card">
+                <h3><%= guild.name %></h3>
+                <a href="/dashboard/<%= guild.id %>/settings?name=<%= encodeURIComponent(guild.name) %>" class="btn">Einstellungen öffnen</a>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>Du hast auf keinem Server Admin-Rechte oder der Bot ist dort nicht drauf.</p>
+    <% } %>
+</body>
+</html>
