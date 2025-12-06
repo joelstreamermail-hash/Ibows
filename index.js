@@ -1,6 +1,5 @@
-
 // Definiert die GET-Route für die Team-Einstellungen
-app.get('/team/settings', ensureAuthenticated, (req, res) => {
+const app = express();
     
     // ZUSÄTZLICHER SCHRITT: Prüfen, ob der Benutzer Administrator oder Teammitglied ist
     if (!req.user || !req.user.isAdmin) {
