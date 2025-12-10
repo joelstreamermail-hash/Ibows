@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from discord import Intents, Client, app_commands
 from Commands.moderation_commands import ModerationCommands
 from Commands.setup_commands import SetupCommands as SetupCommandGroup
-from Commands.admin_commands import AdminCommands
+from Commands.admin_commands import AdminCommands as AdminCommandGroup
 from flask import Flask, request
 
 # --- Umgebungs- und Konfigurations-Setup ---
@@ -54,7 +54,7 @@ class MyClient(Client):
         # Befehle zur Command Tree hinzufügen
         self.tree.add_command(ModerationCommands(self)) 
         self.tree.add_command(SetupCommandGroup(self))
-        self.tree.add_command(AdminCommands(self))
+        self.tree.add_command(AdminCommandGroup(self))
         
         # Commands synchronisieren
         await self.tree.sync() 
