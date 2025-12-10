@@ -46,7 +46,6 @@ def run_flask():
 class MyClient(commands.Bot):
     def __init__(self, *, intents: discord.Intents):
         super().__init__(command_prefix="!", intents=intents)
-        self.tree = discord.app_commands.CommandTree(self)
         self.setup_data = load_config()
 
     def save_config(self, data):
