@@ -3,6 +3,7 @@
 import discord
 import json
 from discord import app_commands, Interaction, Embed
+from discord.ui import View, Select, Modal, TextInput
 from discord.ext import commands
 from typing import Literal
 
@@ -70,9 +71,25 @@ class AdminCommands(app_commands.Group):
         # Für den Start prüfen wir nur Server-Admin, um die Funktionalität zu testen.
         return interaction.user.guild_permissions.administrator
         
-    # ----------------------------------------------------------------------
+    # --- NEUER COMMAND: /admin setupbearbeiten (Startet die interaktive UI) ---
+    @app_commands.command(name="setupbearbeiten", description="Starte die interaktive Bot-Konfiguration (Nur für Bot-Admins).")
+    async def interactive_setup(self, interaction: Interaction):
+        if not self._is_bot_admin(interaction):
+            return await interaction.response.send_message("❌ Nur für Bot-Admins.", ephemeral=True)
+            
+        view = SetupSelectView(interaction, self, is_admin=True)
+        await interaction.response.send_message("Wähle aus, welche Einstellung du bearbeiten möchtest:", view=view, ephemeral=True)
+
     # COMMAND: /admin config_show (Kopie von setup_commands)
-    # ----------------------------------------------------------------------
+    # --- NEUER COMMAND: /admin setupbearbeiten (Startet die interaktive UI) ---
+    @app_commands.command(name="setupbearbeiten", description="Starte die interaktive Bot-Konfiguration (Nur für Bot-Admins).")
+    async def interactive_setup(self, interaction: Interaction):
+        if not self._is_bot_admin(interaction):
+            return await interaction.response.send_message("❌ Nur für Bot-Admins.", ephemeral=True)
+            
+        view = SetupSelectView(interaction, self, is_admin=True)
+        await interaction.response.send_message("Wähle aus, welche Einstellung du bearbeiten möchtest:", view=view, ephemeral=True)
+
     @app_commands.command(name="config_show", description="Zeigt die aktuelle Bot-Konfiguration (Nur für Bot-Admins).")
     async def show_setup_config(self, interaction: Interaction):
         if not self._is_bot_admin(interaction):
@@ -85,7 +102,23 @@ class AdminCommands(app_commands.Group):
         
         await interaction.response.send_message(embed=embed, ephemeral=True)
         
-    # ----------------------------------------------------------------------
+    # --- NEUER COMMAND: /admin setupbearbeiten (Startet die interaktive UI) ---
+    @app_commands.command(name="setupbearbeiten", description="Starte die interaktive Bot-Konfiguration (Nur für Bot-Admins).")
+    async def interactive_setup(self, interaction: Interaction):
+        if not self._is_bot_admin(interaction):
+            return await interaction.response.send_message("❌ Nur für Bot-Admins.", ephemeral=True)
+            
+        view = SetupSelectView(interaction, self, is_admin=True)
+        await interaction.response.send_message("Wähle aus, welche Einstellung du bearbeiten möchtest:", view=view, ephemeral=True)
+
     # COMMAND: /admin setupbearbeiten (Kopie von setup_commands)
-    # ----------------------------------------------------------------------
+    # --- NEUER COMMAND: /admin setupbearbeiten (Startet die interaktive UI) ---
+    @app_commands.command(name="setupbearbeiten", description="Starte die interaktive Bot-Konfiguration (Nur für Bot-Admins).")
+    async def interactive_setup(self, interaction: Interaction):
+        if not self._is_bot_admin(interaction):
+            return await interaction.response.send_message("❌ Nur für Bot-Admins.", ephemeral=True)
+            
+        view = SetupSelectView(interaction, self, is_admin=True)
+        await interaction.response.send_message("Wähle aus, welche Einstellung du bearbeiten möchtest:", view=view, ephemeral=True)
+
             await interaction.response.send_message(f"❌ Fehler: {e}", ephemeral=True)
