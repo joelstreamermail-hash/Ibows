@@ -57,6 +57,7 @@ class MyClient(Client):
         self.tree.add_command(AdminCommandGroup(self))
         
         # Commands synchronisieren
+await self.tree.clear_commands(guild=None)
         await self.tree.sync() 
         print(f'✅ Bot erfolgreich eingeloggt als {self.user}!')
 
