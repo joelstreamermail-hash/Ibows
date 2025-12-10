@@ -121,59 +121,6 @@ class SetupCommands(app_commands.Group):
     # ----------------------------------------------------------------------
     # COMMAND: /setup setupbearbeiten
     # ----------------------------------------------------------------------
-    @app_commands.command(name="setupbearbeiten", description="Bearbeite Admin-Rollen, Log-Kanal oder Team-Panel-Einstellungen.")
-    async def edit_setup_command(self, interaction: Interaction, 
-                                 typ: Literal["admin_rollen", "log_kanal", "team_panel_rollen", "team_panel_kanal"], 
-                                 target_id: str):
-        
-        if not self._is_allowed(interaction): 
-            return await interaction.response.send_message("❌ Keine Berechtigung.", ephemeral=True)
-            
-        guild_id_str = str(interaction.guild_id)
-        if guild_id_str not in self.bot.setup_data: 
-            self.bot.setup_data[guild_id_str] = {}
-            
-        try:
-            target_id_int = int(target_id)
-            message = ""
-
-            if typ in ["admin_rollen", "team_panel_rollen"]:
-                # Rollen-Handling
-                role = interaction.guild.get_role(target_id_int)
-                if not role: return await interaction.response.send_message("❌ Ungültige Rollen-ID.", ephemeral=True)
-                
-                key = "admin_role_ids" if typ == "admin_rollen" else "team_panel_roles"
-                current_list = self.bot.setup_data[guild_id_str].get(key, [])
-                
-                if target_id_int not in current_list:
-                    current_list.append(target_id_int)
-                    message = f"✅ Rolle **{role.name}** zu {typ} hinzugefügt."
-                else:
-                    current_list.remove(target_id_int)
-                    message = f"✅ Rolle **{role.name}** aus {typ} entfernt."
-                
-                self.bot.setup_data[guild_id_str][key] = current_list
-            
-            elif typ in ["log_kanal", "team_panel_kanal"]:
-                # Kanal-Handling
-                channel = interaction.guild.get_channel(target_id_int)
-                if not isinstance(channel, discord.TextChannel): # Nur Text-Kanäle zulassen
-                    return await interaction.response.send_message("❌ Ungültige Kanal-ID. Es muss ein Text-Kanal sein.", ephemeral=True)
-                    
-                key = "log_channel_id" if typ == "log_kanal" else "team_panel_channel_id"
-                self.bot.setup_data[guild_id_str][key] = target_id_int
-                message = f"✅ {typ.replace('_', ' ').capitalize()} auf {channel.mention} gesetzt."
-
-            else:
-                message = "❌ Unbekannter Typ."
-
-            # SPEICHERUNG
-            self.bot.save_config(self.bot.setup_data) 
-            await interaction.response.send_message(message, ephemeral=True)
-            
-        except ValueError: 
-            await interaction.response.send_message("❌ Ungültige ID. Bitte nur Ziffern eingeben.", ephemeral=True)
-        except Exception as e:
             await interaction.response.send_message(f"❌ Fehler: {e}", ephemeral=True)
 
 
