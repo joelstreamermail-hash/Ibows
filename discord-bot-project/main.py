@@ -3,7 +3,7 @@ import threading
 import json
 from dotenv import load_dotenv
 from discord import Intents, Client, app_commands
-from Commands.standard_commands import StandardCommands, ModerationCommands
+from Commands.moderation_commands import ModerationCommands
 from Commands.setup_commands import SetupCommands
 from Commands.admin_commands import AdminCommands
 from flask import Flask, request
@@ -52,7 +52,6 @@ class MyClient(Client):
 
     async def on_ready(self):
         # Befehle zur Command Tree hinzufügen
-        self.tree.add_command(StandardCommands(self))
         self.tree.add_command(ModerationCommands(self)) 
         self.tree.add_command(SetupCommands(self))
         self.tree.add_command(AdminCommands(self))
